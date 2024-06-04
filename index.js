@@ -67,14 +67,14 @@ currencyExpress.use(express.json());
 currencyExpress.use("/", currenicesRouter)
 
 
-
-
 const blogsRouter = require('./routes/blogs.routes');
+const authUserRoutes = require('./routes/authUser.routes');
 const port4 = 8084;
 const app = express();
 
 app.use(express.json());
 app.use("/", blogsRouter);
+app.use("/auth", authUserRoutes);
 
 
 mongoose.connect(DB_URI).then(() => {
