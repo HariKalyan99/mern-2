@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+const DB_URI = "mongodb://localhost:27017/blogs"
 const express = require('express');
 const http  = require('http');
 const port1 = 8081;
@@ -49,9 +51,7 @@ const server = http.createServer((request, response) => {
 })
 
 
-server.listen(port1, () => {
-    console.log(`Litening to the port: ${port1}`)
-})
+
 
 
 const port2 = 8082;
@@ -59,15 +59,40 @@ const userExpress = express();
 userExpress.use(express.json());
 userExpress.use("/", usersRouter);
 
-userExpress.listen(port2, () => {
-    console.log(`Listening on the port built for the user, port: ${port2}`)
-})
+
 
 const port3 = 8083;
 const currencyExpress = express();
 currencyExpress.use(express.json());
 currencyExpress.use("/", currenicesRouter)
 
-currencyExpress.listen(port3, () => {
-    console.log(`Listening on the port: ${port3}`)
+
+
+
+const blogsRouter = require('./routes/blogs.routes');
+const port4 = 8084;
+const app = express();
+
+app.use(express.json());
+app.use("/", blogsRouter);
+
+
+mongoose.connect(DB_URI).then(() => {
+    console.log('Successfully connected to the mongoDb');
+    server.listen(port1, () => {
+        console.log(`Litening to the port: ${port1}`)
+    })
+    userExpress.listen(port2, () => {
+        console.log(`Listening on the port built for the user, port: ${port2}`)
+    })
+    currencyExpress.listen(port3, () => {
+        console.log(`Listening on the port: ${port3}`)
+    })
+    app.listen(port4, () => {
+        console.log(`Listening on port: ${port4}`)
+    })
+}).catch(error => {
+    console.log('Connection unsuccesfull to the mongoDb')
 })
+
+
