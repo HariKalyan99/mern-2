@@ -64,7 +64,7 @@ userExpress.use("/", usersRouter);
 const port3 = 8083;
 const currencyExpress = express();
 currencyExpress.use(express.json());
-currencyExpress.use("/", currenicesRouter)
+currencyExpress.use("/", currenicesRouter);
 
 
 const blogsRouter = require('./routes/blogs.routes');

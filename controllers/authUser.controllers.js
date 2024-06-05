@@ -18,10 +18,11 @@ const postUserSignup = async(request, response) => {
     }
 }
 
-const postUserLogin = (request, response) => {
+const postUserLogin = async(request, response) => {
     const {body} = request;
     try{
-        const result = await 
+        const result = await Auth.postLogin({...body});
+        return response.status(200).json(result);
     }catch(error){
         if(error.code === 11000){
             response.status(409).json({
@@ -34,4 +35,4 @@ const postUserLogin = (request, response) => {
     }
 }
 
-module.exports = {postUserSignup};
+module.exports = {postUserSignup, postUserLogin};
